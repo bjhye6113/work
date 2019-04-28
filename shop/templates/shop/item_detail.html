@@ -1,0 +1,86 @@
+{% extends './layout.html' %}
+
+{% block content %}
+{#    <a href="/shop/">게시판 목록으로 돌아가기</a><br/><br/>#}
+    <a href="{% url 'shop:item_list' %}">게시판 목록으로 돌아가기</a><br/><br/>
+
+    <form>
+    <fieldset>
+    <table>
+        <thead>
+            <th>필드</th><th>내용</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="10%">id:</td><td><input type="text" value="item object({{ item.id }})"></td>
+        </tr>
+        <tr>
+            <td>이름:</td><td><input type="text" value="{{ item.name }}" style="width:300px;"></td>
+        </tr>
+        <tr>
+            <td>간략 설명:</td><td><input type="text" value="{{ item.short_desc }}" style="width:300px;"></td>
+        </tr>
+        <tr>
+            <td>설명:</td>
+            <td><textarea style="width: 400px; height: 200px; overflow: visible;">{{ item.desc }}</textarea></td>
+        </tr>
+        <tr>
+            <td>사진:</td><td><input type="image" value="{{ item.photo }}"></td>
+            {% if item.photo %}
+            <img style = "width: 100px; height:100px" src="{{ item.photo.url }}" />
+        {% endif %}
+        </tr>
+        <tr>
+            <td>게시 일시:</td><td><input type="text" value="{{ item.created_at }}" style="width:300px;"></td>
+        </tr>
+        <tr>
+            <td>수정 일시:</td><td><input type="text" value="{{ item.updated_at }}" style="width:300px;"></td>
+        <tr>
+            <td>태그 집합:</td><td><input type="text" value="{{ item.tagged }}" style="width:300px;"></td>
+        </tr>
+        </tbody>
+    </table>
+    </fieldset>
+    </form> <br/>
+
+    {# https://python.bakyeono.net/chapter-7-2.html #}
+        `for key, value in my_tag.items`:
+        {% for key, value in my_tag.items %}
+            {% if value > 0 %}
+                <input type="checkbox" name={{ key }} checked>
+            {% else %}
+                <input type="checkbox" name={{ key }}>
+            {% endif %}
+            <label for={{ key }}> {{ key }} </label>
+        {% endfor %} <br/>
+        <hr>
+<table>
+        <thead>
+            <th>id</th>
+            <th>리뷰</th>
+            <th>작성 일시</th>
+            <th>수정 일시</th>
+        </thead>
+        <tbody>
+        {% for c in item.reviews.all %}
+            <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.message }}</td>
+                <td>{{ c.created_at }}</td>
+                <td>{{ c.updated_at }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    item.tagged: {{ item.tagged }} <br/>
+    item.tags.all: {{ item.tags.all }} <br/><br/>
+
+    `for key, value in my_tag.items`: <br/>
+    {% for key, value in my_tag.items %}
+        키: {{ key }} 값: {{ value }} <br/>
+    {% endfor %} <br/><br/>
+
+
+{% endblock content %}
